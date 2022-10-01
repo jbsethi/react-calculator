@@ -49,10 +49,10 @@ const App = () => {
     .reduce((acc, row) => {
       if (row.operation === ROW_OPERATIONS.ADD) {
         acc += Number(row.value)
-        return acc
+      } else {
+        acc -= Number(row.value)
       }
 
-      acc -= Number(row.value)
       return acc
     }, 0)
 
