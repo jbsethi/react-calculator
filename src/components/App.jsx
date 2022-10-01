@@ -31,6 +31,19 @@ const App = () => {
     })
   }
 
+  const listItems = rows.map((row, index) => {
+    return (
+      <Row
+        key={index}
+        updateValue={(e) => updateHandler(index, 'value', e.target.value)}
+        updateOperation={(e) => updateHandler(index, 'operation', e.target.value)}
+        updateDisability={(value) => updateHandler(index, 'disabled', value)}
+        removeRow={() => removeRow(index)}
+        {...row}
+      />
+    )
+  })
+
   const total = rows
     .filter(row => !row.disabled)
     .reduce((acc, row) => {
@@ -50,20 +63,7 @@ const App = () => {
         <button onClick={addRow}>Add row</button>
       </div>
       <ul>
-        {
-          rows.map((row, index) => {
-            return (
-              <Row
-                key={index}
-                updateValue={(e) => updateHandler(index, 'value', e.target.value)}
-                updateOperation={(e) => updateHandler(index, 'operation', e.target.value)}
-                updateDisability={(value) => updateHandler(index, 'disabled', value)}
-                removeRow={() => removeRow(index)}
-                {...row}
-              />
-            )
-          })
-        }
+        { listItems }
       </ul>
       <div>
         Result: {total}
