@@ -6,20 +6,23 @@ const App = () => {
 
   const addRow = () => {
     setRows((oldRows) => {
-      return [...oldRows, { ...DEFAULT_ROW_CONFIG }]
+      return [...oldRows, {
+        id: new Date().valueOf(),
+        ...DEFAULT_ROW_CONFIG
+      }]
     })
   }
 
-  const removeRow = (idx) => {
+  const removeRow = (id) => {
     setRows((oldRows) => {
-      return oldRows.filter((_, index) => index !== idx)
+      return oldRows.filter((row) => row.id !== id)
     })
   }
 
-  const updateHandler = (idx, key, value) => {
+  const updateHandler = (id, key, value) => {
     setRows((oldRows) => {
-      return oldRows.map((row, index) => {
-        if (index === idx) {
+      return oldRows.map((row) => {
+        if (row.id === id) {
           return {
             ...row,
             [key]: value
@@ -31,14 +34,14 @@ const App = () => {
     })
   }
 
-  const listItems = rows.map((row, index) => {
+  const listItems = rows.map((row) => {
     return (
       <Row
-        key={index}
-        updateValue={(e) => updateHandler(index, 'value', e.target.value)}
-        updateOperation={(e) => updateHandler(index, 'operation', e.target.value)}
-        updateDisability={(value) => updateHandler(index, 'disabled', value)}
-        removeRow={() => removeRow(index)}
+        key={row.id}
+        updateValue={(e) => updateHandler(row.id, 'value', e.target.value)}
+        updateOperation={(e) => updateHandler(row.id, 'operation', e.target.value)}
+        updateDisability={(value) => updateHandler(row.id, 'disabled', value)}
+        removeRow={() => removeRow(row.id)}
         {...row}
       />
     )
